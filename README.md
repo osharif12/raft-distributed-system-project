@@ -35,8 +35,14 @@
  secondary servers which will handles requests from the front end and store 
  data. This project will have a few milestones, namely completion of basic 
  structure as outlined above, election algorithm, replication of data (with 
- indices, terms, commits, and data), and the testing script. By May 8th I 
- hope to have at least the basic structure of the project and the election 
+ indices, terms, commits, and data), and the testing script. For Cluster Membership 
+ for the most part I am adding a 2 phase approach. For every membership update I 
+ will disable the old configuration so it won't accept new client requests, then update
+ to the new and start accepting client requests again. If a new client starts, I will
+ not add it to the group until it has replicated all the data from the primary first. 
+ This will ensure that a new node that has a lot of data to replicate won't be 
+ in the way of a primary waiting for its secondaries to replicate data on a request.
+ By May 8th I hope to have at least the basic structure of the project and the election 
  algorithm completed. By May 10 I hope to have the election algorithm completed. 
  By May 12 I hope to have the the replication completed. By May 14 I hope to 
  have everything completed including the testing. I will debug project until May 
