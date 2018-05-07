@@ -35,8 +35,9 @@ public class AppendEntryServlet extends HttpServlet{
         response.setContentType("application/json");
 
         String jsonString = getJsonString(request);
+        //System.out.println("Inside AppendEntryServlet, jsonString = " + jsonString);
 
-        if(jsonString.isEmpty()){ // if there is no data that is sent, send 200 response back
+        if(jsonString.equals("") || jsonString == null){ // if there is no data that is sent, send 200 response back
             response.setStatus(HttpServletResponse.SC_OK);
         }
         else{ // if there is data that is sent, then replicate the log
@@ -57,41 +58,6 @@ public class AppendEntryServlet extends HttpServlet{
             response.setStatus(HttpServletResponse.SC_OK);
         }
 
-
-
-
-
-        /*
-        response.setContentType("application/json");
-        String path = request.getPathInfo();
-        path = path.substring(1);
-        int urlEventId = Integer.parseInt(path);
-
-        String jsonString = getJsonString(request);
-        JSONParser parser = new JSONParser();
-
-        int userid = 0, eventid = 0, tickets = 0, ticketsAvail = 0, ticketsPurch = 0;
-        String isPrimary = "", eventname = "";
-        JSONParser parser1 = new JSONParser();
-        JSONObject object1;
-
-        try{
-            object1 = (JSONObject) parser1.parse(jsonString);
-            isPrimary = object1.get("isprimary").toString();
-        }
-        catch (ParseException e){
-            e.printStackTrace();
-        }
-
-        if(isPrimary.equals("true")){
-            // This function when called will check if event exists and if tickets can be purchased
-            primaryAction(parser, jsonString, userid, eventid, urlEventId, tickets, response);
-        }
-        else{ // if this is a secondary event service, just replicate
-            replicateSecondary(jsonString);
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
-        */
     }
 
     /**
@@ -112,7 +78,6 @@ public class AppendEntryServlet extends HttpServlet{
 
         return builder.toString();
     }
-
 
 
 }

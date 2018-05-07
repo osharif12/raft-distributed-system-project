@@ -31,13 +31,14 @@ public class ServerMain {
         }
 
         handler.addServletWithMapping(new ServletHolder(new AppendEntryServlet(logEntries)), "/appendentry");
+        handler.addServletWithMapping(new ServletHolder(new RegPrimaryServlet(secondariesMap, host, port)), "/register/*");
         //handler.addServletWithMapping(new ServletHolder(new ListServlet(events)), "/list");
 
         server.setHandler(handler);
         server.start();
 
-        //SecondaryFunctions secondary = new SecondaryFunctions(events, frontEndMap, secondaryMap, host, port, log);
-        //secondary.checkSecondary(properties, isPrimary, host, port);
+        SecondaryFunctions secondary = new SecondaryFunctions(host, port, secondariesMap);
+        secondary.checkSecondary(properties, isLeader);
 
         server.join();
 

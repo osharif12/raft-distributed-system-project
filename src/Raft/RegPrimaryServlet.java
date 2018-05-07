@@ -20,13 +20,13 @@ import java.util.regex.Pattern;
  */
 public class RegPrimaryServlet extends HttpServlet {
     private ArrayList<ServerInfo> secondaryMap;
-    private String primaryHost;
-    private int primaryPort;
+    private String leaderHost;
+    private int leaderPort;
 
     public RegPrimaryServlet(ArrayList<ServerInfo> smap, String host, int port){
         secondaryMap = smap;
-        primaryHost = host;
-        primaryPort = port;
+        leaderHost = host;
+        leaderPort = port;
     }
 
     @Override
@@ -35,6 +35,43 @@ public class RegPrimaryServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_OK);
 
+        String pathInfo = request.getPathInfo();
+        String secondaryHost = "";
+        int secondaryPort = 0;
+        String regex = "\\/host=(.*?)port=([0-9]*)";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(pathInfo);
+        if(m.matches()){
+            secondaryHost = m.group(1);
+            secondaryPort = Integer.valueOf(m.group(2));
+        }
+
+        // create a JSONArray for all secondary nodes in secondaryMap
+        JSONArray jsonArray = new JSONArray();
+        for(ServerInfo temp: secondaryMap){
+            int port = temp.getPort();
+            String host = temp.getHost();
+            JSONObject object = createJSON(host, port);
+            jsonArray.add(object);
+        }
+
+        // add secondary server info to primary secondaryMap
+        ServerInfo temp1 = new ServerInfo(secondaryPort, secondaryHost);
+        if(!secondaryExists(secondaryPort)){
+            secondaryMap.add(temp1);
+            startHeartbeat(leaderHost, leaderPort, secondaryHost, secondaryPort);
+            System.out.println("added new secondary to secondaryMap of primary");
+        }
+        //secondaryMap.add(temp1);
+
+        JSONObject finalObj = new JSONObject();
+        finalObj.put("secondaries", jsonArray);
+
+        PrintWriter writer = response.getWriter();
+        writer.println(finalObj.toString());
+        writer.flush();
+
+        //startHeartbeat(leaderHost, leaderPort, secondaryHost, secondaryPort);
 
         /*
         String pathInfo = request.getPathInfo();
@@ -87,20 +124,7 @@ public class RegPrimaryServlet extends HttpServlet {
         */
     }
 
-    public JSONObject createJSON(int eventId, int userId, String eventName,
-                                 int ticketsAvail, int ticketsPurch){
-        JSONObject object = new JSONObject();
-
-        object.put("userId", userId);
-        object.put("eventId", eventId);
-        object.put("eventName", eventName);
-        object.put("ticketsAvail", ticketsAvail);
-        object.put("ticketsPurch", ticketsPurch);
-
-        return object;
-    }
-
-    public JSONObject createJSON2(String host, int port){
+    public JSONObject createJSON(String host, int port){
         JSONObject object = new JSONObject();
 
         object.put("port", port);
@@ -109,37 +133,27 @@ public class RegPrimaryServlet extends HttpServlet {
         return object;
     }
 
-    /*
-    public JSONArray getEventJsonArray(ArrayList<EventData> list){
-        JSONArray jsonArray = new JSONArray();
-
-        // create an JsonArray of all event data to send to secondary
-        for(EventData temp: list){
-            int eventId = temp.getEventId();
-            int userId = temp.getUserId();
-            String eventName = temp.getEventName();
-            int ticketsAvail = temp.getTicketsAvailable();
-            int ticketsPurch = temp.getTicketsPurchased();
-
-            JSONObject object = createJSON(eventId, userId, eventName, ticketsAvail, ticketsPurch);
-            jsonArray.add(object);
-        }
-
-        return jsonArray;
-    }
-
-*/
     /**
      * This method creates instance of PrimaryFunctions class and starts heartbeats to secondary.
      * @param secondaryHost
      * @param secondaryPort
      */
-    /*
     public void startHeartbeat(String primaryHost, int primaryPort, String secondaryHost, int secondaryPort){
-        PrimaryFunctions primary = new PrimaryFunctions(eventList, frontEndMap, secondaryMap,
-                primaryHost, primaryPort, log);
-        primary.checkSecondaryAlive(secondaryHost, secondaryPort);
+        PrimaryFunctions primary = new PrimaryFunctions(secondaryMap, primaryHost, primaryPort);
+        primary.sendHeartbeatsToSecondary(secondaryHost, secondaryPort);
     }
-    */
+
+    public boolean secondaryExists(int port){
+        boolean ret = false;
+
+        for(ServerInfo temp: secondaryMap){
+            int tPort = temp.getPort();
+            if(port == tPort){
+                ret = true;
+            }
+        }
+
+        return ret;
+    }
 
 }
