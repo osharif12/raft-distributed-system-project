@@ -1,3 +1,5 @@
+package Raft;
+
 import java.util.*;
 
 public class LogEntry {
