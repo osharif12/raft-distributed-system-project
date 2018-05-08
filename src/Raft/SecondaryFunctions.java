@@ -33,14 +33,18 @@ public class SecondaryFunctions {
             // register secondary server with primary server and get primary information
             boolean register = registerSecondary(leaderHost, leaderPort, host, port, secondaryMap);
 
-            /*
+            System.out.println("List of all secondaries below(in secFunctions): ");
+            for(ServerInfo temp: secondaryMap){
+                System.out.println("Secondary with port = " + temp.getPort());
+            }
+
             // register secondary with all other secondary nodes
             for(ServerInfo s: secondaryMap){
                 String host1 = s.getHost();
                 int port1 = s.getPort();
-                //boolean sendSecondaries = sendNewSecondary(host1, port1, host, port);
+                boolean sendSecondaries = sendNewSecondary(host1, port1, host, port);
             }
-            */
+
             // while loop continuously sends heartbeat messages
             //Thread checkAlive = new Thread(new CheckAlive(primaryHost, primaryPort));
             //checkAlive.start();
@@ -72,8 +76,10 @@ public class SecondaryFunctions {
 
                 int port1 = (int)Long.parseLong(object.get("port").toString());
                 String host1 = object.get("host").toString();
-                ServerInfo serverInfo = new ServerInfo(port1, host1);
-                secondaryMap.add(serverInfo);
+                if(this.port != port1){
+                    ServerInfo serverInfo = new ServerInfo(port1, host1);
+                    secondaryMap.add(serverInfo);
+                }
             }
         }
         catch(Exception e){
@@ -94,6 +100,24 @@ public class SecondaryFunctions {
         }
 
         return response.toString();
+    }
+
+    public boolean sendNewSecondary(String secondaryHost, int secondaryPort, String host, int port){
+        String url = "http://" + secondaryHost + ":" + secondaryPort + "/newsecondary/";
+        url = url.concat("host=" + host + "port=" + port);
+        int statusCode = 0;
+
+        try {
+            URL objUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) objUrl.openConnection();
+            connection.setRequestMethod("GET");
+            statusCode = connection.getResponseCode();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return (statusCode == 200);
     }
 
 }
