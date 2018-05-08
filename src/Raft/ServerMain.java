@@ -11,6 +11,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class ServerMain {
     private static int term = 0;
+    private static int vote = 1;
     private static boolean timerSet = false;
 
     public static void main(String[] args) throws Exception {
@@ -23,7 +24,7 @@ public class ServerMain {
         //System.out.println("Leader host+port = " + properties.getLeaderHost() + ":"
         //        + properties.getLeaderPort());
 
-        SecondaryFunctions secondary = new SecondaryFunctions(host, port, secondariesMap);
+        SecondaryFunctions secondary = new SecondaryFunctions(host, port, secondariesMap, timerSet, term);
         Server server = new Server(port);
         ServletHandler handler = new ServletHandler();
 
@@ -36,8 +37,7 @@ public class ServerMain {
         handler.addServletWithMapping(new ServletHolder(new AppendEntryServlet(logEntries, term, secondary, timerSet)), "/appendentry");
         handler.addServletWithMapping(new ServletHolder(new RegPrimaryServlet(secondariesMap, host, port)), "/register/*");
         handler.addServletWithMapping(new ServletHolder(new RecNewSecondary(secondariesMap)), "/newsecondary/*");
-        handler.addServletWithMapping(new ServletHolder(new RequestVoteServlet()), "/requestvote");
-        //handler.addServletWithMapping(new ServletHolder(new ListServlet(events)), "/list");
+        handler.addServletWithMapping(new ServletHolder(new RequestVoteServlet(term, vote)), "/requestvote/*");
 
         server.setHandler(handler);
         server.start();

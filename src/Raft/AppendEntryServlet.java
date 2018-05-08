@@ -43,7 +43,8 @@ public class AppendEntryServlet extends HttpServlet{
         String jsonString = getJsonString(request);
         //System.out.println("Inside AppendEntryServlet, jsonString = " + jsonString);
 
-        if(jsonString.equals("") || jsonString == null){ // if there is no data that is sent, send 200 response back
+        if(jsonString.equals("") || jsonString == null){
+            // if there is no data that is sent then this is a heartbeat, send 200 response back
             response.setStatus(HttpServletResponse.SC_OK);
 
             if(!timerSet){

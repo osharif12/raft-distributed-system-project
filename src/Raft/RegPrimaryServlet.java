@@ -13,10 +13,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This class will instruct the Primary to process the GET request sent by the secondary upon starting and
- * will send primary list of events, secondaries, and front ends to secondary. It will also take secondary
- * host and port and add info to primary database of secondaries. It should also send all the secondaries
- * in its list data about the new secondary.
+ * This class will instruct the Leader to process the GET request sent by the follower upon starting and
+ * will send leader list of followers to followers. It will also take follower
+ * host and port and add info to primary database of secondaries.
  */
 public class RegPrimaryServlet extends HttpServlet {
     private ArrayList<ServerInfo> secondaryMap;
@@ -62,7 +61,6 @@ public class RegPrimaryServlet extends HttpServlet {
             startHeartbeat(leaderHost, leaderPort, secondaryHost, secondaryPort);
             System.out.println("added new secondary to secondaryMap of primary");
         }
-        //secondaryMap.add(temp1);
 
         JSONObject finalObj = new JSONObject();
         finalObj.put("secondaries", jsonArray);
@@ -70,58 +68,6 @@ public class RegPrimaryServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
         writer.println(finalObj.toString());
         writer.flush();
-
-        //startHeartbeat(leaderHost, leaderPort, secondaryHost, secondaryPort);
-
-        /*
-        String pathInfo = request.getPathInfo();
-        String secondaryHost = "";
-        int secondaryPort = 0;
-        String regex = "\\/host=(.*?)port=([0-9]*)";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(pathInfo);
-        if(m.matches()){
-            secondaryHost = m.group(1);
-            secondaryPort = Integer.valueOf(m.group(2));
-        }
-
-        log.debug("Discovered new secondary with port = " + secondaryPort);
-        ArrayList<EventData> list = eventList.getList();
-        JSONArray jsonArray = getEventJsonArray(list);
-
-        // create a JSONArray for all secondary nodes in secondaryMap
-        JSONArray jsonArray1 = new JSONArray();
-        for(ServerInfo temp: secondaryMap){
-            int port = temp.getPort();
-            String host = temp.getHost();
-            JSONObject object = createJSON2(host, port);
-            jsonArray1.add(object);
-        }
-
-        // add secondary server info to primary secondaryMap
-        ServerInfo temp1 = new ServerInfo(secondaryPort, secondaryHost);
-        secondaryMap.add(temp1);
-
-        // create a JSONArray for all front ends
-        JSONArray jsonArray2 = new JSONArray();
-        for(ServerInfo temp: frontEndMap){
-            int port = temp.getPort();
-            String host = temp.getHost();
-            JSONObject object = createJSON2(host, port);
-            jsonArray2.add(object);
-        }
-
-        JSONObject finalObj = new JSONObject();
-        finalObj.put("events", jsonArray);
-        finalObj.put("secondaries", jsonArray1);
-        finalObj.put("frontends", jsonArray2);
-
-        PrintWriter writer = response.getWriter();
-        writer.println(finalObj.toString());
-        writer.flush();
-
-        startHeartbeat(primaryHost, primaryPort, secondaryHost, secondaryPort);
-        */
     }
 
     public JSONObject createJSON(String host, int port){

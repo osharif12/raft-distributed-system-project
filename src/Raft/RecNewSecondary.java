@@ -52,11 +52,8 @@ public class RecNewSecondary extends HttpServlet {
             secondaryMap.add(temp);
         }
 
-        //log.debug("Discovered new secondary service with port " + secondaryPort);
-        //log.debug("See updated list of secondaries below");
         System.out.println("See updated list of followers below");
         for(ServerInfo e: secondaryMap){
-            //log.debug("Secondary with port " + e.getPort());
             System.out.println("Follower with port " + e.getPort());
         }
     }

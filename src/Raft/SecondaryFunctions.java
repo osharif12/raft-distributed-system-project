@@ -17,11 +17,16 @@ public class SecondaryFunctions{
     private int port;
     private ArrayList<ServerInfo> secondaryMap;
     private boolean resetTimer = true;
+    private boolean timerSet;
+    private int term;
 
-    public SecondaryFunctions(String host1, int port1, ArrayList<ServerInfo> sMap){
+    public SecondaryFunctions(String host1, int port1, ArrayList<ServerInfo> sMap, boolean timer,
+                              int term1){
         host = host1;
         port = port1;
         secondaryMap = sMap;
+        timerSet = timer;
+        term = term1;
     }
 
     public void checkSecondary(PropertiesLoader properties, String isLeader) throws IOException {
@@ -160,6 +165,18 @@ public class SecondaryFunctions{
 
                     if(!resetTimer){
                         System.out.println("Primary server crashed");
+                        // set timerSet to false so secondary can create new timer with new primary
+                        timerSet = false;
+
+                        Election election = new Election(host, port, secondaryMap, term);
+                        boolean elect = election.electLeader();
+
+                        if(elect){
+                            //System.out.println("This node was elected leader");
+                        }
+                        else{
+                            System.out.println("This node was not elected leader");
+                        }
                     }
                 }
             } // end of while
