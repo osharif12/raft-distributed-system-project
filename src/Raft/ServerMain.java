@@ -10,8 +10,10 @@ import org.eclipse.jetty.servlet.ServletHolder;
  * depending on the argument parameters that are read when it is created.
  */
 public class ServerMain {
+    private static int term = 0;
+    private static boolean timerSet = false;
+
     public static void main(String[] args) throws Exception {
-        //ArrayList<LogEntry> logEntries = new ArrayList<>();
         LogEntryList logEntries = new LogEntryList();
         ArrayList<ServerInfo> secondariesMap = new ArrayList<>();
 
@@ -21,6 +23,7 @@ public class ServerMain {
         //System.out.println("Leader host+port = " + properties.getLeaderHost() + ":"
         //        + properties.getLeaderPort());
 
+        SecondaryFunctions secondary = new SecondaryFunctions(host, port, secondariesMap);
         Server server = new Server(port);
         ServletHandler handler = new ServletHandler();
 
@@ -30,15 +33,15 @@ public class ServerMain {
             System.out.println("Starting up Raft leader with host:port = " + host + ":" + port);
         }
 
-        handler.addServletWithMapping(new ServletHolder(new AppendEntryServlet(logEntries)), "/appendentry");
+        handler.addServletWithMapping(new ServletHolder(new AppendEntryServlet(logEntries, term, secondary, timerSet)), "/appendentry");
         handler.addServletWithMapping(new ServletHolder(new RegPrimaryServlet(secondariesMap, host, port)), "/register/*");
         handler.addServletWithMapping(new ServletHolder(new RecNewSecondary(secondariesMap)), "/newsecondary/*");
+        handler.addServletWithMapping(new ServletHolder(new RequestVoteServlet()), "/requestvote");
         //handler.addServletWithMapping(new ServletHolder(new ListServlet(events)), "/list");
 
         server.setHandler(handler);
         server.start();
 
-        SecondaryFunctions secondary = new SecondaryFunctions(host, port, secondariesMap);
         secondary.checkSecondary(properties, isLeader);
 
         server.join();

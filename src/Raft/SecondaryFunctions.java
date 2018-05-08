@@ -10,11 +10,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
-public class SecondaryFunctions {
+public class SecondaryFunctions{
     private String host;
     private int port;
     private ArrayList<ServerInfo> secondaryMap;
+    private boolean resetTimer = true;
 
     public SecondaryFunctions(String host1, int port1, ArrayList<ServerInfo> sMap){
         host = host1;
@@ -44,11 +46,8 @@ public class SecondaryFunctions {
                 int port1 = s.getPort();
                 boolean sendSecondaries = sendNewSecondary(host1, port1, host, port);
             }
-
-            // while loop continuously sends heartbeat messages
-            //Thread checkAlive = new Thread(new CheckAlive(primaryHost, primaryPort));
-            //checkAlive.start();
         }
+
     }
 
     public boolean registerSecondary(String primHost, int primPort, String host, int port,
@@ -119,5 +118,52 @@ public class SecondaryFunctions {
 
         return (statusCode == 200);
     }
+
+    /**
+     * This method fires off a thread that starts a timer with a randomized election timeout
+     * between 150-300 ms. As long as the leader sends appendRPC messages every 150 ms then the
+     * follower will accept the leader exists. If election timeout occurs, follower will start
+     * election.
+     */
+    public void startTimer(){
+        Thread timer = new Thread(new ReceiveHeartbeat());
+        timer.start();
+    }
+
+    /**
+     * This class will reset the timer(while loop) by setting the resetTimer flag back to true
+     */
+    public void resetTimer(){
+        resetTimer = true;
+    }
+
+    private class ReceiveHeartbeat implements Runnable{
+        private int randomNumber;
+
+        public ReceiveHeartbeat(){
+            Random random = new Random();
+            randomNumber = random.nextInt(1000) + 2000;
+            System.out.println("random wait number generated for port " + port + " = " + randomNumber + " ms");
+        }
+
+        @Override
+        public void run(){
+            while(resetTimer){
+                synchronized (this) {
+                    resetTimer = false;
+                    try{
+                        this.wait(randomNumber);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                    if(!resetTimer){
+                        System.out.println("Primary server crashed");
+                    }
+                }
+            } // end of while
+        }
+    } // end of ReceiveHeartbeat class
 
 }

@@ -64,6 +64,7 @@ public class PrimaryFunctions {
                         if(alive == false){
                             alive = true;
                         }
+
                         this.wait(2000);
                     }
                     catch (IOException e) {
