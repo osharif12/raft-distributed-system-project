@@ -21,7 +21,6 @@ public class Election {
         port = port1;
         secondaryMap = sMap;
         term = term1;
-        //term++; // increment term
 
         majority = sMap.size() + 1; // all the servers that are eligible to become leader
         majority = (majority / 2) + 1; // number that consitutes a majority of all the eligible leaders
