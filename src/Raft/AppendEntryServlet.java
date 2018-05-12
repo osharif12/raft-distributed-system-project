@@ -16,13 +16,13 @@ import java.io.IOException;
  */
 public class AppendEntryServlet extends HttpServlet{
     private LogEntryList logEntries;
-    private static int term;
+    //private volatile int term;
     private SecondaryFunctions secondary;
     private static boolean timerSet;
 
-    public AppendEntryServlet(LogEntryList logs, int t, SecondaryFunctions s, boolean timer){
+    public AppendEntryServlet(LogEntryList logs, SecondaryFunctions s, boolean timer){
         logEntries = logs;
-        term = t;
+        //term = t;
         secondary = s;
         timerSet = timer;
     }
@@ -50,7 +50,12 @@ public class AppendEntryServlet extends HttpServlet{
             if(!timerSet){
                 // create thread and start timer with randomized election timeout (150-300 ms)
                 timerSet = true;
-                secondary.startTimer();
+                try {
+                    secondary.startTimer();
+                }
+                catch (InterruptedException e){
+                    e.printStackTrace();
+                }
             }
             else{ // reset timer in thread using boolean variable
                 secondary.resetTimer();

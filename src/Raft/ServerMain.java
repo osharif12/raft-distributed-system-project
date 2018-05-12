@@ -10,13 +10,14 @@ import org.eclipse.jetty.servlet.ServletHolder;
  * depending on the argument parameters that are read when it is created.
  */
 public class ServerMain {
-    private static int term = 0;
-    private static int vote = 1;
+    //private static volatile int term;
+    //private static int vote = 1;
     private static boolean timerSet = false;
 
     public static void main(String[] args) throws Exception {
         LogEntryList logEntries = new LogEntryList();
         ArrayList<ServerInfo> secondariesMap = new ArrayList<>();
+        //term = 0;
 
         String host = args[1].trim(), isLeader = args[5].trim();
         int port = Integer.valueOf(args[3]);
@@ -24,9 +25,9 @@ public class ServerMain {
         //System.out.println("Leader host+port = " + properties.getLeaderHost() + ":"
         //        + properties.getLeaderPort());
 
-        SecondaryFunctions secondary = new SecondaryFunctions(host, port, secondariesMap, timerSet, term);
         Server server = new Server(port);
         ServletHandler handler = new ServletHandler();
+        SecondaryFunctions secondary = new SecondaryFunctions(host, port, secondariesMap, timerSet);
 
         if (isLeader.equals("true")) {
             // This node will be the leader and will be responsible for registering followers,
@@ -34,10 +35,10 @@ public class ServerMain {
             System.out.println("Starting up Raft leader with host:port = " + host + ":" + port);
         }
 
-        handler.addServletWithMapping(new ServletHolder(new AppendEntryServlet(logEntries, term, secondary, timerSet)), "/appendentry");
+        handler.addServletWithMapping(new ServletHolder(new AppendEntryServlet(logEntries, secondary, timerSet)), "/appendentry");
         handler.addServletWithMapping(new ServletHolder(new RegPrimaryServlet(secondariesMap, host, port)), "/register/*");
         handler.addServletWithMapping(new ServletHolder(new RecNewSecondary(secondariesMap)), "/newsecondary/*");
-        handler.addServletWithMapping(new ServletHolder(new RequestVoteServlet(term, vote)), "/requestvote/*");
+        handler.addServletWithMapping(new ServletHolder(new RequestVoteServlet(secondary)), "/requestvote/*");
 
         server.setHandler(handler);
         server.start();

@@ -13,7 +13,7 @@ public class Election {
     private String host;
     private int port;
     private ArrayList<ServerInfo> secondaryMap;
-    private int term;
+    private volatile int term;
     private int majority;
 
     public Election(String host1, int port1, ArrayList<ServerInfo> sMap, int term1) {
@@ -21,7 +21,7 @@ public class Election {
         port = port1;
         secondaryMap = sMap;
         term = term1;
-        term++; // increment term
+        //term++; // increment term
 
         majority = sMap.size() + 1; // all the servers that are eligible to become leader
         majority = (majority / 2) + 1; // number that consitutes a majority of all the eligible leaders
@@ -30,7 +30,7 @@ public class Election {
     public boolean electLeader(){
         boolean ret = false, gotVote = false;
         int count = 1; // candidate will vote for itself
-        System.out.println("This node is starting an election");
+        System.out.println("This node with port " + port + " is starting an election");
         System.out.println("This node became a candidate and incremented its term to " + term);
 
         for(ServerInfo temp: secondaryMap){ // send out the RequestVoteRpc's to all other followers
@@ -52,17 +52,18 @@ public class Election {
             ret = true;
             System.out.println("This node was elected leader with " + count + " votes");
 
+            for(ServerInfo temp: secondaryMap){
+                String host = temp.getHost();
+                int port = temp.getPort();
+                startHeartbeat(this.host, this.port, host, port);
+            }
+
+            // update leader host and port in config file
             try {
                 changePrimaryConfig(host, port);
             }
             catch (Exception e){
                 e.printStackTrace();
-            }
-
-            for(ServerInfo temp: secondaryMap){
-                String host = temp.getHost();
-                int port = temp.getPort();
-                startHeartbeat(this.host, this.port, host, port);
             }
 
         }

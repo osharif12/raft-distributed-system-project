@@ -18,21 +18,18 @@ public class SecondaryFunctions{
     private ArrayList<ServerInfo> secondaryMap;
     private boolean resetTimer = true;
     private boolean timerSet;
-    private int term;
+    private volatile int term;
 
-    public SecondaryFunctions(String host1, int port1, ArrayList<ServerInfo> sMap, boolean timer,
-                              int term1){
+    public SecondaryFunctions(String host1, int port1, ArrayList<ServerInfo> sMap, boolean timer){
         host = host1;
         port = port1;
         secondaryMap = sMap;
         timerSet = timer;
-        term = term1;
+        term = 0;
     }
 
     public void checkSecondary(PropertiesLoader properties, String isLeader) throws IOException {
         if(isLeader.equals("false")){ // is secondary event service, register w/ primary and get data
-            // send a message to primary with port and ip of new secondary to start data transfer
-            //log.debug("Secondary event service starting up at port " + secPort);
             System.out.println("Starting up secondary with port " + port);
             int leaderPort = Integer.valueOf(properties.getLeaderPort());
             String leaderHost = properties.getLeaderHost();
@@ -45,7 +42,7 @@ public class SecondaryFunctions{
                 System.out.println("Secondary with port = " + temp.getPort());
             }
 
-            // register secondary with all other secondary nodes
+            // register follower with all other follower nodes
             for(ServerInfo s: secondaryMap){
                 String host1 = s.getHost();
                 int port1 = s.getPort();
@@ -124,30 +121,77 @@ public class SecondaryFunctions{
         return (statusCode == 200);
     }
 
+    public synchronized int getTerm(){
+        return term;
+    }
+
+    public synchronized void incrementTerm(){
+        term++;
+    }
+
     /**
      * This method fires off a thread that starts a timer with a randomized election timeout
      * between 150-300 ms. As long as the leader sends appendRPC messages every 150 ms then the
      * follower will accept the leader exists. If election timeout occurs, follower will start
      * election.
      */
-    public void startTimer(){
+    public void startTimer() throws InterruptedException{
+        //term = term1;
+        System.out.println("Secondary starting timer");
+
+        /*
+        Random random = new Random();
+        int randomNumber = random.nextInt(151) + 150;
+        System.out.println("random wait number generated for port " + port + " = " + randomNumber + " ms");
+
+        while(resetTimer){
+            resetTimer = false;
+            Thread.sleep(randomNumber);
+            //this.wait(randomNumber);
+
+            if(!resetTimer){
+                startElection();
+            }
+        }
+    */
         Thread timer = new Thread(new ReceiveHeartbeat());
         timer.start();
+        //timer.join();
     }
 
     /**
      * This class will reset the timer(while loop) by setting the resetTimer flag back to true
      */
     public void resetTimer(){
+        //term = term1;
         resetTimer = true;
+    }
+
+    public void startElection(){
+        System.out.println("Primary server crashed, starting election, term = " + term);
+        // set timerSet to false so secondary can create new timer with new primary
+        timerSet = false;
+
+        incrementTerm();
+        Election election = new Election(host, port, secondaryMap, term);
+        boolean elect = election.electLeader();
+
+        if(elect){
+            //System.out.println("This node was elected leader");
+        }
+        else{
+            System.out.println("This node was not elected leader");
+        }
     }
 
     private class ReceiveHeartbeat implements Runnable{
         private int randomNumber;
+        //private volatile int term;
 
         public ReceiveHeartbeat(){
+            //term = term1;
             Random random = new Random();
-            randomNumber = random.nextInt(1000) + 2000;
+            randomNumber = random.nextInt(151) + 200;
             System.out.println("random wait number generated for port " + port + " = " + randomNumber + " ms");
         }
 
@@ -163,8 +207,10 @@ public class SecondaryFunctions{
                         e.printStackTrace();
                     }
 
-                    if(!resetTimer){
-                        System.out.println("Primary server crashed");
+                    if(!resetTimer){ // start election if primary crashed
+                        startElection();
+                        /*
+                        System.out.println("Primary server crashed, starting election, term = " + term);
                         // set timerSet to false so secondary can create new timer with new primary
                         timerSet = false;
 
@@ -177,9 +223,11 @@ public class SecondaryFunctions{
                         else{
                             System.out.println("This node was not elected leader");
                         }
+                        */
                     }
                 }
             } // end of while
+            System.out.println("Thread is dead");
         }
     } // end of ReceiveHeartbeat class
 

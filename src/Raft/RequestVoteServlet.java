@@ -11,12 +11,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RequestVoteServlet extends HttpServlet{
-    private int term;
-    private int vote;
+    //private int term;
+    //private int vote;
+    private SecondaryFunctions secondary;
 
-    public RequestVoteServlet(int term1, int vote1){
-        term = term1;
-        vote = vote1;
+    public RequestVoteServlet(SecondaryFunctions secondary1){
+        //term = term1;
+        //vote = vote1;
+        secondary = secondary1;
     }
 
     @Override
@@ -32,16 +34,24 @@ public class RequestVoteServlet extends HttpServlet{
             term2 = Integer.valueOf(m.group(1));
         }
 
+        // Only if the term of this service is less than incoming term, you should give vote,
+        // if they are equal or greater then you should not give vote
+        int term = secondary.getTerm();
+        int vote = 0;
+
         System.out.println("Inside RequestVoteServlet, term read = " + term2);
+        System.out.println("This current term for this service = " + term);
 
         if(term < term2){ // increment term, set vote = 1,
-            term++;
+            secondary.incrementTerm();
             vote = 1;
             vote--;
             response.setStatus(HttpServletResponse.SC_OK);
             System.out.println("Gave its vote to server requesting it");
+            System.out.println("Updated term for this service is " + secondary.getTerm());
         }
         else{ // terms should not be same or this term should not be greater than incoming term
+            System.out.println("Did not vote for server trying to be leader");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 

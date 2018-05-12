@@ -65,7 +65,7 @@ public class PrimaryFunctions {
                             alive = true;
                         }
 
-                        this.wait(2000);
+                        this.wait(150);
                     }
                     catch (IOException e) {
                         e.printStackTrace();
