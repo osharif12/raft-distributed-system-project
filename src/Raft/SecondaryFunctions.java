@@ -136,34 +136,16 @@ public class SecondaryFunctions{
      * election.
      */
     public void startTimer() throws InterruptedException{
-        //term = term1;
         System.out.println("Secondary starting timer");
 
-        /*
-        Random random = new Random();
-        int randomNumber = random.nextInt(151) + 150;
-        System.out.println("random wait number generated for port " + port + " = " + randomNumber + " ms");
-
-        while(resetTimer){
-            resetTimer = false;
-            Thread.sleep(randomNumber);
-            //this.wait(randomNumber);
-
-            if(!resetTimer){
-                startElection();
-            }
-        }
-    */
         Thread timer = new Thread(new ReceiveHeartbeat());
         timer.start();
-        //timer.join();
     }
 
     /**
      * This class will reset the timer(while loop) by setting the resetTimer flag back to true
      */
     public void resetTimer(){
-        //term = term1;
         resetTimer = true;
     }
 
@@ -186,10 +168,8 @@ public class SecondaryFunctions{
 
     private class ReceiveHeartbeat implements Runnable{
         private int randomNumber;
-        //private volatile int term;
 
         public ReceiveHeartbeat(){
-            //term = term1;
             Random random = new Random();
             randomNumber = random.nextInt(151) + 200;
             System.out.println("random wait number generated for port " + port + " = " + randomNumber + " ms");
