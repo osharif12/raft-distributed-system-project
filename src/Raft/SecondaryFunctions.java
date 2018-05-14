@@ -194,7 +194,7 @@ public class SecondaryFunctions{
         setTimerSet(false);
 
         incrementTerm();
-        Election election = new Election(host, port, secondaryMap, term);
+        Election election = new Election(host, port, secondaryMap, term, this);
         boolean elect = election.electLeader();
 
         if(elect){
@@ -222,7 +222,7 @@ public class SecondaryFunctions{
                 synchronized (this) {
                     resetTimer = false;
                     try{
-                        this.wait(randomNumber);
+                        this.wait(randomNumber + 20);
                     }
                     catch (Exception e){
                         e.printStackTrace();

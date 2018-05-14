@@ -1,16 +1,17 @@
 package Raft;
 
+import org.json.simple.JSONObject;
 import java.util.*;
 
 public class LogEntry {
     private int term;
     private int index;
-    private int data;
+    private JSONObject object;
 
-    public LogEntry(int term1, int index1, int data1){
+    public LogEntry(int term1, int index1, JSONObject object1){
         term = term1;
         index = index1;
-        data = data1;
+        object = object1;
     }
 
     public int getTerm(){
@@ -21,8 +22,8 @@ public class LogEntry {
         return index;
     }
 
-    public int getData(){
-        return data;
+    public JSONObject getData(){
+        return object;
     }
 
 }

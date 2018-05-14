@@ -55,7 +55,12 @@ public class ReplicationRequests {
                     else if(input2.equals("3")){
                         createJson = false;
 
-                        boolean send = sendAppendEntryRpc(propertiesLoader, object);
+                        JSONObject finalObj = new JSONObject();
+                        finalObj.put("lastTerm", "1");
+                        finalObj.put("lastIndex", "1");
+                        finalObj.put("data", object);
+
+                        boolean send = sendAppendEntryRpc(propertiesLoader, finalObj);
                         System.out.println("sending json object, response code = " + send);
                     }
                     else{

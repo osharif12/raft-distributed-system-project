@@ -34,7 +34,7 @@ public class ServerMain {
         }
 
         handler.addServletWithMapping(new ServletHolder(new AppendEntryServlet(logEntries, secondary, secondariesMap)), "/appendentry");
-        handler.addServletWithMapping(new ServletHolder(new RegPrimaryServlet(secondariesMap, host, port)), "/register/*");
+        handler.addServletWithMapping(new ServletHolder(new RegPrimaryServlet(secondary, secondariesMap, host, port)), "/register/*");
         handler.addServletWithMapping(new ServletHolder(new RecNewSecondary(secondariesMap)), "/newsecondary/*");
         handler.addServletWithMapping(new ServletHolder(new RequestVoteServlet(secondary)), "/requestvote/*");
 

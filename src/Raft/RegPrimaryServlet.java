@@ -18,11 +18,13 @@ import java.util.regex.Pattern;
  * host and port and add info to primary database of secondaries.
  */
 public class RegPrimaryServlet extends HttpServlet {
+    private SecondaryFunctions secondary;
     private ArrayList<ServerInfo> secondaryMap;
     private String leaderHost;
     private int leaderPort;
 
-    public RegPrimaryServlet(ArrayList<ServerInfo> smap, String host, int port){
+    public RegPrimaryServlet(SecondaryFunctions sec, ArrayList<ServerInfo> smap, String host, int port){
+        secondary = sec;
         secondaryMap = smap;
         leaderHost = host;
         leaderPort = port;
@@ -85,7 +87,7 @@ public class RegPrimaryServlet extends HttpServlet {
      * @param secondaryPort
      */
     public void startHeartbeat(String primaryHost, int primaryPort, String secondaryHost, int secondaryPort){
-        PrimaryFunctions primary = new PrimaryFunctions(secondaryMap, primaryHost, primaryPort);
+        PrimaryFunctions primary = new PrimaryFunctions(secondary, secondaryMap, primaryHost, primaryPort);
         primary.sendHeartbeatsToSecondary(secondaryHost, secondaryPort);
     }
 

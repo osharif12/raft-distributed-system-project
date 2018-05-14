@@ -15,12 +15,15 @@ public class Election {
     private ArrayList<ServerInfo> secondaryMap;
     private volatile int term;
     private int majority;
+    private SecondaryFunctions secondary;
 
-    public Election(String host1, int port1, ArrayList<ServerInfo> sMap, int term1) {
+    public Election(String host1, int port1, ArrayList<ServerInfo> sMap, int term1,
+                    SecondaryFunctions sec) {
         host = host1;
         port = port1;
         secondaryMap = sMap;
         term = term1;
+        secondary = sec;
 
         majority = sMap.size() + 1; // all the servers that are eligible to become leader
         majority = (majority / 2) + 1; // number that consitutes a majority of all the eligible leaders
@@ -102,7 +105,7 @@ public class Election {
     }
 
     public void startHeartbeat(String primaryHost, int primaryPort, String secondaryHost, int secondaryPort){
-        PrimaryFunctions primary = new PrimaryFunctions(secondaryMap, primaryHost, primaryPort);
+        PrimaryFunctions primary = new PrimaryFunctions(secondary, secondaryMap, primaryHost, primaryPort);
         primary.sendHeartbeatsToSecondary(secondaryHost, secondaryPort);
     }
 
