@@ -11,13 +11,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RequestVoteServlet extends HttpServlet{
-    //private int term;
-    //private int vote;
     private SecondaryFunctions secondary;
 
     public RequestVoteServlet(SecondaryFunctions secondary1){
-        //term = term1;
-        //vote = vote1;
         secondary = secondary1;
     }
 

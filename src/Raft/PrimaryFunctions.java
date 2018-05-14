@@ -16,11 +16,25 @@ public class PrimaryFunctions {
         primaryPort = pPort;
     }
 
+    /**
+     * This method fires off a new thread whose job it is to send a heartbeat message/Appendentryrpc
+     * with no data to a follower.
+     * @param secondaryHost
+     * @param secondaryPort
+     */
     public void sendHeartbeatsToSecondary(String secondaryHost, int secondaryPort){
         Thread checkAlive = new Thread(new CheckAlive(secondaryHost, secondaryPort));
         checkAlive.start();
     }
 
+    /**
+     * This class is called by the private inner class to send an AppendEntryRPC without data
+     * (heartbeat) to the specified follower.
+     * @param secondaryHost
+     * @param secondaryPort
+     * @return
+     * @throws IOException
+     */
     public boolean sendHeartbeat(String secondaryHost, int secondaryPort) throws IOException{
         String url = "http://" + secondaryHost + ":" + secondaryPort + "/appendentry";
         int statusCode = 0;

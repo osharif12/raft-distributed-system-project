@@ -5,8 +5,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
-
-import Raft.PrimaryFunctions;
 import Raft.PropertiesLoader;
 import org.json.simple.JSONObject;
 
@@ -57,8 +55,8 @@ public class ReplicationRequests {
                     else if(input2.equals("3")){
                         createJson = false;
 
-                        System.out.println("sending json object");
-                        //boolean send = sendAppendEntryRpc(propertiesLoader, object);
+                        boolean send = sendAppendEntryRpc(propertiesLoader, object);
+                        System.out.println("sending json object, response code = " + send);
                     }
                     else{
                         System.out.println("Invalid input, please try again");

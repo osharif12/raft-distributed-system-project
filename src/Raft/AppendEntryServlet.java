@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * This servlet will process AppendEntry RPC's. It will have two main responsibilities which are
@@ -16,15 +17,15 @@ import java.io.IOException;
  */
 public class AppendEntryServlet extends HttpServlet{
     private LogEntryList logEntries;
-    //private volatile int term;
+    private ArrayList<ServerInfo> secondariesMap;
     private SecondaryFunctions secondary;
-    private static boolean timerSet;
+    private int majority;
 
-    public AppendEntryServlet(LogEntryList logs, SecondaryFunctions s, boolean timer){
+    public AppendEntryServlet(LogEntryList logs, SecondaryFunctions s, ArrayList<ServerInfo> sMap){
         logEntries = logs;
-        //term = t;
         secondary = s;
-        timerSet = timer;
+        secondariesMap = sMap;
+        majority = 3;
     }
 
     /**
@@ -46,10 +47,11 @@ public class AppendEntryServlet extends HttpServlet{
         if(jsonString.equals("") || jsonString == null){
             // if there is no data that is sent then this is a heartbeat, send 200 response back
             response.setStatus(HttpServletResponse.SC_OK);
+            boolean timerSet = secondary.getTimerSet();
 
             if(!timerSet){
                 // create thread and start timer with randomized election timeout (150-300 ms)
-                timerSet = true;
+                secondary.setTimerSet(true);
                 try {
                     secondary.startTimer();
                 }
@@ -63,10 +65,20 @@ public class AppendEntryServlet extends HttpServlet{
 
         }
         else{ // if there is data that is sent, then replicate the log
+            // If it is a leader, increment term
             JSONParser parser = new JSONParser();
             JSONObject object;
-            int term, index, data;
 
+            if(secondary.getLeader()){ // If a leader received appendEntryRpc with data
+
+            }
+            else{ // if a follower received an appendEntryRpc with data
+
+            }
+
+
+
+            /*
             try{
                 object = (JSONObject) parser.parse(jsonString);
                 term = (int)Long.parseLong(object.get("term").toString());
@@ -76,8 +88,9 @@ public class AppendEntryServlet extends HttpServlet{
             catch (Exception e){
                 e.printStackTrace();
             }
+            */
 
-            response.setStatus(HttpServletResponse.SC_OK);
+            //response.setStatus(HttpServletResponse.SC_OK);
         }
 
     }

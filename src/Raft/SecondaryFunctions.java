@@ -12,20 +12,35 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * This class is created for all services, it has a number of functions. For all services it will
+ * keep track of the host, port, current term, secondaryMap, and current index of all services.
+ * For the followers it will register itself with the leader, get a list of all other followers
+ * from the leader, and register itself with all other followers. Lastly once this follower receives
+ * its first heartbeat message from the leader, it will fire off a thread in the startTimer()
+ * method to generate a random timeout and keep listening for the heartbeat messages from the
+ * leader.
+ */
 public class SecondaryFunctions{
     private String host;
     private int port;
     private ArrayList<ServerInfo> secondaryMap;
-    private boolean resetTimer = true;
+    private boolean resetTimer;
     private boolean timerSet;
     private volatile int term;
+    private boolean isLeader;
+    private int index;
 
-    public SecondaryFunctions(String host1, int port1, ArrayList<ServerInfo> sMap, boolean timer){
+    public SecondaryFunctions(String host1, int port1, ArrayList<ServerInfo> sMap){
         host = host1;
         port = port1;
         secondaryMap = sMap;
-        timerSet = timer;
+        //timerSet = timer;
+        timerSet = false;
+        resetTimer = true;
         term = 0;
+        index = 0;
+        isLeader = false;
     }
 
     public void checkSecondary(PropertiesLoader properties, String isLeader) throws IOException {
@@ -129,6 +144,30 @@ public class SecondaryFunctions{
         term++;
     }
 
+    public synchronized int getIndex(){
+        return index;
+    }
+
+    public synchronized void incrementIndex(){
+        index++;
+    }
+
+    public boolean getLeader(){
+        return isLeader;
+    }
+
+    public void setLeader(boolean leader){
+        isLeader = leader;
+    }
+
+    public synchronized boolean getTimerSet(){
+        return timerSet;
+    }
+
+    public synchronized void setTimerSet(boolean t){
+        timerSet = t;
+    }
+
     /**
      * This method fires off a thread that starts a timer with a randomized election timeout
      * between 150-300 ms. As long as the leader sends appendRPC messages every 150 ms then the
@@ -152,7 +191,7 @@ public class SecondaryFunctions{
     public void startElection(){
         System.out.println("Primary server crashed, starting election, term = " + term);
         // set timerSet to false so secondary can create new timer with new primary
-        timerSet = false;
+        setTimerSet(false);
 
         incrementTerm();
         Election election = new Election(host, port, secondaryMap, term);
@@ -160,6 +199,8 @@ public class SecondaryFunctions{
 
         if(elect){
             //System.out.println("This node was elected leader");
+            // set this secondary to leader
+            setLeader(true);
         }
         else{
             System.out.println("This node was not elected leader");
