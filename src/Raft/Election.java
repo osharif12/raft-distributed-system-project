@@ -8,51 +8,68 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Random;
 
 public class Election {
     private String host;
     private int port;
     private ArrayList<ServerInfo> secondaryMap;
-    private volatile int term;
+    //private volatile int term;
     private int majority;
     private SecondaryFunctions secondary;
+    private int count;
 
-    public Election(String host1, int port1, ArrayList<ServerInfo> sMap, int term1,
-                    SecondaryFunctions sec) {
+    public Election(String host1, int port1, ArrayList<ServerInfo> sMap, SecondaryFunctions sec){
         host = host1;
         port = port1;
         secondaryMap = sMap;
-        term = term1;
         secondary = sec;
-
-        majority = sMap.size() + 1; // all the servers that are eligible to become leader
-        majority = (majority / 2) + 1; // number that consitutes a majority of all the eligible leaders
+        majority = 3;
+        count = 1;
     }
 
     public boolean electLeader(){
         boolean ret = false, gotVote = false;
-        int count = 1; // candidate will vote for itself
+        ArrayList<Thread> threadsList = new ArrayList<>();
         System.out.println("This node with port " + port + " is starting an election");
-        System.out.println("This node became a candidate and incremented its term to " + term);
+        System.out.println("This node became a candidate and incremented its term to " + secondary.getTerm());
 
-        for(ServerInfo temp: secondaryMap){ // send out the RequestVoteRpc's to all other followers
-            String host = temp.getHost();
-            int port = temp.getPort();
+        //synchronized (this) {
+            for (ServerInfo temp : secondaryMap) { // send out the RequestVoteRpc's to all other followers
+                String host = temp.getHost();
+                int port = temp.getPort();
 
+                Thread t1 = new Thread(new SendRequestVoteThread(host, port));
+                t1.start();
+                threadsList.add(t1);
+
+            /*
             gotVote = sendRequestVoteRpc(host, port);
 
             if(gotVote){ // if you got a vote, increment the count
                 count++;
                 System.out.println("Got a vote");
             }
+            */
+            }
 
-        }
 
-        if(count >= majority){ // if you get a majority of votes, new leader was elected,
+            for (Thread temp : threadsList) {
+                try {
+                    temp.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        //} // end of synchronized block
+
+        if(getCount() >= majority){ // if you get a majority of votes, new leader was elected,
             // send heartbeat messages to other nodes notifying them you are new leader, update
             // the properties file
             ret = true;
             System.out.println("This node was elected leader with " + count + " votes");
+            secondary.setLeader(true);
 
             for(ServerInfo temp: secondaryMap){
                 String host = temp.getHost();
@@ -67,7 +84,11 @@ public class Election {
             catch (Exception e){
                 e.printStackTrace();
             }
-
+        }
+        else{
+            // create another randomized timeout, wait, then start a new election
+            System.out.println("Possible split vote or too many servers are down, starting 2nd election");
+            secondary.setSecondElection(true);
         }
 
         return ret;
@@ -83,7 +104,7 @@ public class Election {
      */
     public boolean sendRequestVoteRpc(String sHost, int sPort){
         String url = "http://" + sHost + ":" + sPort + "/requestvote/";
-        url = url.concat("term=" + term);
+        url = url.concat("term=" + secondary.getTerm());
         int statusCode = 0;
 
         try {
@@ -109,6 +130,14 @@ public class Election {
         primary.sendHeartbeatsToSecondary(secondaryHost, secondaryPort);
     }
 
+    public synchronized void incrementCount(){
+        count++;
+    }
+
+    public synchronized int getCount(){
+        return count;
+    }
+
     /**
      * This class updates config file with new primary host/port
      * @param host
@@ -122,5 +151,25 @@ public class Election {
         p.put("leaderport", String.valueOf(port));
         p.store(new FileOutputStream("config.properties"), null);
     }
+
+    private class SendRequestVoteThread implements Runnable{
+        private String secondaryHost;
+        private int secondaryPort;
+
+        public SendRequestVoteThread(String host, int port){
+            secondaryHost = host;
+            secondaryPort = port;
+        }
+
+        @Override
+        public void run(){
+            boolean gotVote = sendRequestVoteRpc(secondaryHost, secondaryPort);
+
+            if(gotVote){
+                // increment the count
+                incrementCount();
+            }
+        }
+    }  // end of class
 
 }

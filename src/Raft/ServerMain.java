@@ -24,7 +24,7 @@ public class ServerMain {
         ServletHandler handler = new ServletHandler();
 
         // This class will handle functionalities for both leader and follower
-        SecondaryFunctions secondary = new SecondaryFunctions(host, port, secondariesMap);
+        SecondaryFunctions secondary = new SecondaryFunctions(host, port, secondariesMap, logEntries);
 
         if (isLeader.equals("true")) {
             // This node will be the leader and will be responsible for registering followers,
@@ -35,9 +35,10 @@ public class ServerMain {
         }
 
         handler.addServletWithMapping(new ServletHolder(new AppendEntryServlet(port, logEntries, secondary, secondariesMap)), "/appendentry");
-        handler.addServletWithMapping(new ServletHolder(new RegPrimaryServlet(secondary, secondariesMap, host, port)), "/register/*");
+        handler.addServletWithMapping(new ServletHolder(new RegPrimaryServlet(secondary, secondariesMap, host, port, logEntries)), "/register/*");
         handler.addServletWithMapping(new ServletHolder(new RecNewSecondary(secondariesMap)), "/newsecondary/*");
         handler.addServletWithMapping(new ServletHolder(new RequestVoteServlet(secondary)), "/requestvote/*");
+        handler.addServletWithMapping(new ServletHolder(new LeaderInfoServlet()), "/leaderinfo");
 
         server.setHandler(handler);
         server.start();

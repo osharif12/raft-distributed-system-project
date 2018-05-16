@@ -1,1 +1,1 @@
-{"storage":[{"lastTerm":0,"data":{"int1":1},"lastIndex":1}]}
+{"storage":[{"lastTerm":0,"data":{"int1":1},"lastIndex":1},{"lastTerm":0,"data":{"string1":"hi"},"lastIndex":2},{"lastTerm":1,"data":{"int1":1},"lastIndex":3},{"lastTerm":1,"data":{"int1":6},"lastIndex":4}]}

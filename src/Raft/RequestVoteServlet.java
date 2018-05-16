@@ -34,11 +34,13 @@ public class RequestVoteServlet extends HttpServlet{
         // if they are equal or greater then you should not give vote
         int term = secondary.getTerm();
         int vote = 0;
+        boolean isCandidate = secondary.getCandidate(); // if isCandidate, cannot vote
 
         System.out.println("Inside RequestVoteServlet, term read = " + term2);
         System.out.println("This current term for this service = " + term);
 
-        if(term < term2){ // increment term, set vote = 1,
+        if(term < term2 && !isCandidate){ // increment term, set vote = 1,
+            secondary.setCandidate(true); // set candidate to true so cannot vote for anyone else this term
             secondary.incrementTerm();
             vote = 1;
             vote--;

@@ -2,12 +2,17 @@ package Raft;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -30,17 +35,23 @@ public class SecondaryFunctions{
     private volatile int term;
     private boolean isLeader;
     private int index;
+    private boolean isCandidate;
+    private boolean secondElection;
+    private JSONArray logEntries;
 
-    public SecondaryFunctions(String host1, int port1, ArrayList<ServerInfo> sMap){
+    public SecondaryFunctions(String host1, int port1, ArrayList<ServerInfo> sMap, JSONArray logs){
         host = host1;
         port = port1;
         secondaryMap = sMap;
-        //timerSet = timer;
+        logEntries = logs;
+
         timerSet = false;
         resetTimer = true;
         term = 0;
         index = 0;
         isLeader = false;
+        isCandidate = false;
+        secondElection = false;
     }
 
     public void checkSecondary(PropertiesLoader properties, String isLeader) throws IOException {
@@ -84,6 +95,13 @@ public class SecondaryFunctions{
             JSONParser parser = new JSONParser();
             JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
             JSONArray secondaryArray = (JSONArray) jsonObject.get("secondaries");
+
+            // get latest data from primary as well and commit so you are up to date, also update term
+            logEntries = (JSONArray) jsonObject.get("storage");
+            String filename = port + ".json";
+            commitEntryToFile(filename);
+            int term1 = (int)Long.parseLong(jsonObject.get("term").toString());
+            term = term1;
 
             // Iterate through the JsonArray and add all the secondary servers to map
             Iterator<JSONObject> iterator = secondaryArray.iterator();
@@ -168,6 +186,22 @@ public class SecondaryFunctions{
         timerSet = t;
     }
 
+    public synchronized void setCandidate(boolean candidate){
+        isCandidate = candidate;
+    }
+
+    public synchronized boolean getCandidate(){
+        return isCandidate;
+    }
+
+    public synchronized void setSecondElection(boolean elect){
+        secondElection = elect;
+    }
+
+    public synchronized boolean getSecondElection(){
+        return secondElection;
+    }
+
     /**
      * This method fires off a thread that starts a timer with a randomized election timeout
      * between 150-300 ms. As long as the leader sends appendRPC messages every 150 ms then the
@@ -192,10 +226,14 @@ public class SecondaryFunctions{
         System.out.println("Primary server crashed, starting election, term = " + term);
         // set timerSet to false so secondary can create new timer with new primary
         setTimerSet(false);
+        boolean elect = false;
 
-        incrementTerm();
-        Election election = new Election(host, port, secondaryMap, term, this);
-        boolean elect = election.electLeader();
+        if(!isCandidate) { // if it is not a candidate already and it has not voted, start election
+            setCandidate(true);
+            incrementTerm();
+            Election election = new Election(host, port, secondaryMap, this);
+            elect = election.electLeader();
+        }
 
         if(elect){
             //System.out.println("This node was elected leader");
@@ -204,7 +242,42 @@ public class SecondaryFunctions{
         }
         else{
             System.out.println("This node was not elected leader");
+            /*
+            Random random = new Random();
+            int randomNumber1 = random.nextInt(151) + 150;
+
+            try{
+                this.wait(randomNumber1);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            */
+
+            if(secondElection){
+                // start second election
+                //startSecondElection();
+                secondElection = false;
+            }
         }
+    }
+
+    public void commitEntryToFile(String filename) throws IOException{
+        // read the json array from json file
+        Path file = Paths.get(filename);
+        String input = new String(Files.readAllBytes(file), StandardCharsets.UTF_8);
+        JSONObject obj = (JSONObject) JSONValue.parse(input);
+
+        // replace old storage with updated storage
+        obj.put("storage", logEntries);
+
+        String output = JSONValue.toJSONString(obj);
+        Files.write(file, output.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public void startSecondElection(){
+        System.out.println("Starting second election");
+        startElection();
     }
 
     private class ReceiveHeartbeat implements Runnable{
@@ -212,7 +285,7 @@ public class SecondaryFunctions{
 
         public ReceiveHeartbeat(){
             Random random = new Random();
-            randomNumber = random.nextInt(151) + 200;
+            randomNumber = random.nextInt(151) + 150;
             System.out.println("random wait number generated for port " + port + " = " + randomNumber + " ms");
         }
 
@@ -230,21 +303,6 @@ public class SecondaryFunctions{
 
                     if(!resetTimer){ // start election if primary crashed
                         startElection();
-                        /*
-                        System.out.println("Primary server crashed, starting election, term = " + term);
-                        // set timerSet to false so secondary can create new timer with new primary
-                        timerSet = false;
-
-                        Election election = new Election(host, port, secondaryMap, term);
-                        boolean elect = election.electLeader();
-
-                        if(elect){
-                            //System.out.println("This node was elected leader");
-                        }
-                        else{
-                            System.out.println("This node was not elected leader");
-                        }
-                        */
                     }
                 }
             } // end of while

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -73,6 +74,16 @@ public class AppendEntryServlet extends HttpServlet{
         if (object2.isEmpty()) { // this is processing a heartbeat message
             response.setStatus(HttpServletResponse.SC_OK);
             boolean timerSet = secondary.getTimerSet();
+            boolean isCandidate = secondary.getCandidate();
+            boolean secondElection = secondary.getSecondElection();
+
+            if(isCandidate){ // restore this secondaries voting rights
+                secondary.setCandidate(false);
+            }
+
+            if(secondElection){ // if secondElection = true, there was an election timeout but new leader got elected
+                secondary.setSecondElection(false);
+            }
 
             if (!timerSet) {
                 // create thread and start timer with randomized election timeout (150-300 ms)
@@ -96,13 +107,12 @@ public class AppendEntryServlet extends HttpServlet{
                 // commit the entry to persistent data store
                 System.out.println("Received updated index in heartbeat, will commit entry to data store ");
                 String filename = port + ".json";
-                System.out.println("secondary filename = " + filename);
                 commitEntryToFile(filename);
             }
         } else {
             System.out.println("jsonString = " + jsonString);
             System.out.println("not a heartbeat, trying to append data to log");
-            System.out.println("(ignore for leader)last term and last index = " + lastTerm + ", " + lastIndex);
+            //System.out.println("(ignore for leader)last term and last index = " + lastTerm + ", " + lastIndex);
             boolean isLeader = secondary.getLeader();
 
             if (isLeader) {
@@ -132,7 +142,7 @@ public class AppendEntryServlet extends HttpServlet{
                 }
 
                 System.out.println("count total = " + count);
-                if (count >= majority) {
+                if (count >= majority) { // leader replicated to a majority of the followers
                     // commit log entry and increment Index
                     System.out.println("Leader replicated to a majority of followers, will commit and increment index");
                     String filename = port + ".json";
@@ -147,14 +157,18 @@ public class AppendEntryServlet extends HttpServlet{
 
             } else {
                 // secondary should just add to log entry and send 200 response back but not commit
+                // it should also check index and term to see if it matches, if it doesn't get info
+                // from leader
+
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("lastTerm", lastTerm);
                 jsonObject.put("lastIndex", lastIndex);
                 jsonObject.put("data", object2);
                 logEntries.add(jsonObject);
 
-                System.out.println("Secondary added to log entry list");
+                System.out.println("Secondary added data from leader to log entry list");
                 response.setStatus(HttpServletResponse.SC_OK);
+
             }
 
         } // end of else (for if it is not heartbeat)
@@ -216,6 +230,44 @@ public class AppendEntryServlet extends HttpServlet{
 
         String output = JSONValue.toJSONString(obj);
         Files.write(file, output.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public JSONArray requestInfoFromLeader(String host, int port) throws  Exception {
+        String url = "http://" + host + ":" + port + "/loginfo";
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        con.setDoOutput(true);
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+
+        JSONObject object = new JSONObject();
+        object.put("loginfo", 1);
+
+        OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+        writer.write(object.toString());
+        writer.flush();
+
+        int statusCode = con.getResponseCode();
+        System.out.println("Status code for getting log info = " + statusCode);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String line;
+        StringBuilder builder = new StringBuilder();
+
+        while ((line = in.readLine()) != null) {
+            builder.append(line);
+        }
+
+        String jsonString = builder.toString();
+        System.out.println("Log info json = " + jsonString);
+
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObj = (JSONObject) parser.parse(jsonString);
+        JSONArray log = (JSONArray) jsonObj.get("storage");
+
+        return log;
     }
 
 }

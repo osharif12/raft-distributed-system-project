@@ -22,12 +22,15 @@ public class RegPrimaryServlet extends HttpServlet {
     private ArrayList<ServerInfo> secondaryMap;
     private String leaderHost;
     private int leaderPort;
+    private JSONArray logEntries;
 
-    public RegPrimaryServlet(SecondaryFunctions sec, ArrayList<ServerInfo> smap, String host, int port){
+    public RegPrimaryServlet(SecondaryFunctions sec, ArrayList<ServerInfo> smap, String host,
+                             int port, JSONArray logs){
         secondary = sec;
         secondaryMap = smap;
         leaderHost = host;
         leaderPort = port;
+        logEntries = logs;
     }
 
     @Override
@@ -66,6 +69,9 @@ public class RegPrimaryServlet extends HttpServlet {
 
         JSONObject finalObj = new JSONObject();
         finalObj.put("secondaries", jsonArray);
+        finalObj.put("storage", logEntries);
+        int term = secondary.getTerm();
+        finalObj.put("term", term);
 
         PrintWriter writer = response.getWriter();
         writer.println(finalObj.toString());
