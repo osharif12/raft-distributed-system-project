@@ -60,8 +60,8 @@ public class ReplicationRequests {
                         finalObj.put("lastIndex", "1");
                         finalObj.put("data", object);
 
-                        boolean send = sendAppendEntryRpc(propertiesLoader, finalObj);
-                        System.out.println("sending json object, response code = " + send);
+                        boolean send = sendAppendEntryRpc(finalObj);
+                        System.out.println("sending json object, send status = " + send);
                     }
                     else{
                         System.out.println("Invalid input, please try again");
@@ -79,7 +79,8 @@ public class ReplicationRequests {
 
     }
 
-    public static boolean sendAppendEntryRpc(PropertiesLoader propertiesLoader, JSONObject object) throws IOException {
+    public static boolean sendAppendEntryRpc(JSONObject object) throws IOException {
+        PropertiesLoader propertiesLoader = new PropertiesLoader();
         String host = propertiesLoader.getLeaderHost();
         int port = Integer.valueOf(propertiesLoader.getLeaderPort());
         String url = "http://" + host + ":" + port + "/appendentry";

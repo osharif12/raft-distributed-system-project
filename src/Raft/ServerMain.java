@@ -4,6 +4,7 @@ import java.util.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.json.simple.JSONArray;
 
 /**
  * This class represents a Raft server that will be created, will either be a leader or a follower
@@ -12,7 +13,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class ServerMain {
 
     public static void main(String[] args) throws Exception {
-        LogEntryList logEntries = new LogEntryList();
+        JSONArray logEntries = new JSONArray();
         ArrayList<ServerInfo> secondariesMap = new ArrayList<>();
 
         String host = args[1].trim(), isLeader = args[5].trim();
@@ -33,7 +34,7 @@ public class ServerMain {
             System.out.println("Starting up Raft leader with host:port = " + host + ":" + port);
         }
 
-        handler.addServletWithMapping(new ServletHolder(new AppendEntryServlet(logEntries, secondary, secondariesMap)), "/appendentry");
+        handler.addServletWithMapping(new ServletHolder(new AppendEntryServlet(port, logEntries, secondary, secondariesMap)), "/appendentry");
         handler.addServletWithMapping(new ServletHolder(new RegPrimaryServlet(secondary, secondariesMap, host, port)), "/register/*");
         handler.addServletWithMapping(new ServletHolder(new RecNewSecondary(secondariesMap)), "/newsecondary/*");
         handler.addServletWithMapping(new ServletHolder(new RequestVoteServlet(secondary)), "/requestvote/*");
@@ -44,4 +45,5 @@ public class ServerMain {
         secondary.checkSecondary(properties, isLeader);
         server.join();
     }
+
 }

@@ -62,10 +62,10 @@ public class PrimaryFunctions {
             writer.flush();
 
             statusCode = connection.getResponseCode();
-            System.out.println("sent heartbeat from primary to secondary with port " + secondaryPort);
+            //System.out.println("sent heartbeat from primary to secondary with port " + secondaryPort);
         }
         catch(Exception e){
-            System.out.println("secondary with port " + secondaryPort + " is offline");
+            //System.out.println("secondary with port " + secondaryPort + " is offline");
             statusCode = 400;
         }
 

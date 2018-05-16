@@ -26,4 +26,14 @@ public class LogEntry {
         return object;
     }
 
+    public JSONObject returnJson(){
+        JSONObject ret = new JSONObject();
+
+        ret.put("term", term);
+        ret.put("index", index);
+        ret.put("data", object);
+
+        return ret;
+    }
+
 }

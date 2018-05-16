@@ -1,5 +1,7 @@
 package Raft;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -10,6 +12,20 @@ public class LogEntryList {
     public LogEntryList(){
         logEntryList = new ArrayList<>();
         lock = new ReentrantReadWriteLock();
+    }
+
+    public LogEntryList(JSONArray jsonArray){
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject obj = (JSONObject) jsonArray.get(i);
+            System.out.println("json object added to list = " + obj.toString());
+
+            int term = (int)Long.parseLong(obj.get("term").toString());
+            int index = (int)Long.parseLong(obj.get("index").toString());
+            JSONObject temp = (JSONObject) obj.get("index");
+            LogEntry entry = new LogEntry(term, index, temp);
+
+            logEntryList.add(entry);
+        }
     }
 
     /**
