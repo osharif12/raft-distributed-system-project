@@ -14,7 +14,6 @@ public class Election {
     private String host;
     private int port;
     private ArrayList<ServerInfo> secondaryMap;
-    //private volatile int term;
     private int majority;
     private SecondaryFunctions secondary;
     private int count;
@@ -34,35 +33,22 @@ public class Election {
         System.out.println("This node with port " + port + " is starting an election");
         System.out.println("This node became a candidate and incremented its term to " + secondary.getTerm());
 
-        //synchronized (this) {
-            for (ServerInfo temp : secondaryMap) { // send out the RequestVoteRpc's to all other followers
-                String host = temp.getHost();
-                int port = temp.getPort();
+        for (ServerInfo temp : secondaryMap) { // send out the RequestVoteRpc's to all other followers
+            String host = temp.getHost();
+            int port = temp.getPort();
 
-                Thread t1 = new Thread(new SendRequestVoteThread(host, port));
-                t1.start();
-                threadsList.add(t1);
+            Thread t1 = new Thread(new SendRequestVoteThread(host, port));
+            t1.start();
+            threadsList.add(t1);
+        }
 
-            /*
-            gotVote = sendRequestVoteRpc(host, port);
-
-            if(gotVote){ // if you got a vote, increment the count
-                count++;
-                System.out.println("Got a vote");
+        for (Thread temp : threadsList) {
+            try {
+                temp.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            */
-            }
-
-
-            for (Thread temp : threadsList) {
-                try {
-                    temp.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        //} // end of synchronized block
+        }
 
         if(getCount() >= majority){ // if you get a majority of votes, new leader was elected,
             // send heartbeat messages to other nodes notifying them you are new leader, update

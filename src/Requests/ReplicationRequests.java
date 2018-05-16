@@ -4,13 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
-import Raft.PropertiesLoader;
 import Raft.ServerInfo;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -19,11 +16,7 @@ public class ReplicationRequests {
     public static void main(String[] args) throws Exception{
         boolean loop = true, createJson = true;
         ArrayList<ServerInfo> servers = getServerList();
-        int MAX_VALUE = 2147483647;
-        int MIN_VALUE = -2147483648;
-        PropertiesLoader propertiesLoader = new PropertiesLoader();
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("Follow instructions below.");
 
         while(loop){
@@ -118,11 +111,8 @@ public class ReplicationRequests {
     }
 
     public static boolean sendAppendEntryRpc(JSONObject object, JSONObject leaderInfo) throws IOException {
-        // send request to get leader host and port
-
         String host = leaderInfo.get("leaderhost").toString();
         int port = Integer.valueOf(leaderInfo.get("leaderport").toString());
-
         String url = "http://" + host + ":" + port + "/appendentry";
         int statusCode = 0;
 
@@ -139,7 +129,6 @@ public class ReplicationRequests {
             writer.flush();
 
             statusCode = connection.getResponseCode();
-
             if(statusCode == 200){
                 System.out.println("Status code when sending json object to leader with port = " + statusCode);
                 System.out.println("Successfully committed to leader and majority of followers");
@@ -147,7 +136,6 @@ public class ReplicationRequests {
             else{
                 System.out.println("Could not successfully commit the json object to data store");
             }
-
         }
         catch(Exception e){
             System.out.println("Service with port " + port + " is offline");
@@ -176,10 +164,8 @@ public class ReplicationRequests {
 
             try {
                 String url = "http://" + host + ":" + port + "/leaderinfo";
-
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
                 con.setDoOutput(true);
                 con.setRequestMethod("POST");
                 con.setRequestProperty("Content-Type", "application/json");
@@ -205,7 +191,6 @@ public class ReplicationRequests {
 
                     String jsonString = builder.toString();
                     System.out.println("Leader json info = " + jsonString);
-
                     JSONParser parser = new JSONParser();
                     JSONObject temp1 = (JSONObject) parser.parse(jsonString);
 
@@ -213,30 +198,15 @@ public class ReplicationRequests {
                     leaderhost = temp1.get("leaderhost").toString();
                     leaderport = temp1.get("leaderport").toString();
 
-                    if(leaderport.equals("4450")){
-                        leaderport = "8000";
-                    }
-                    else if(leaderport.equals("4451")){
-                        leaderport = "8001";
-                    }
-                    else if(leaderport.equals("4452")){
-                        leaderport = "8002";
-                    }
-                    else if(leaderport.equals("4453")){
-                        leaderport = "8003";
-                    }
-                    else if(leaderport.equals("4454")){
-                        leaderport = "8004";
-                    }
+                    // This function changes the leader port to the port that corresponds to it in the tunneling command
+                    leaderport = changeLeaderPort(leaderport);
 
                     leaderhost = "localhost";
-                    System.out.println("new leader host and port = " + leaderhost + ", " + leaderport);
                     JSONObject temp2 = new JSONObject();
                     temp2.put("leaderhost", leaderhost);
                     temp2.put("leaderport", leaderport);
                     ret = temp2;
 
-                    //ret = (JSONObject) parser.parse(jsonString);
                     loop = false;
                 }
             }
@@ -246,11 +216,29 @@ public class ReplicationRequests {
             finally {
                 i++;
             }
-
-        }
+        } // end of while loop
 
         return ret;
     }
 
+    public static String changeLeaderPort(String leaderport){
+        if(leaderport.equals("4450")){
+            leaderport = "8000";
+        }
+        else if(leaderport.equals("4451")){
+            leaderport = "8001";
+        }
+        else if(leaderport.equals("4452")){
+            leaderport = "8002";
+        }
+        else if(leaderport.equals("4453")){
+            leaderport = "8003";
+        }
+        else if(leaderport.equals("4454")){
+            leaderport = "8004";
+        }
+
+        return leaderport;
+    }
 
 }

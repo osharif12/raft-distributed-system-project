@@ -1,7 +1,6 @@
 package Raft;
 
 import org.json.simple.JSONObject;
-
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -62,10 +61,8 @@ public class PrimaryFunctions {
             writer.flush();
 
             statusCode = connection.getResponseCode();
-            //System.out.println("sent heartbeat from primary to secondary with port " + secondaryPort);
         }
         catch(Exception e){
-            //System.out.println("secondary with port " + secondaryPort + " is offline");
             statusCode = 400;
         }
 

@@ -53,9 +53,7 @@ public class AppendEntryServlet extends HttpServlet{
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
-
         String jsonString = getJsonString(request);
-        //System.out.println("Inside AppendEntryServlet, jsonString = " + jsonString);
 
         JSONParser parser = new JSONParser();
         JSONObject object = null;
@@ -73,88 +71,21 @@ public class AppendEntryServlet extends HttpServlet{
 
         if (object2.isEmpty()) { // this is processing a heartbeat message
             response.setStatus(HttpServletResponse.SC_OK);
-            boolean timerSet = secondary.getTimerSet();
-            boolean isCandidate = secondary.getCandidate();
-            boolean secondElection = secondary.getSecondElection();
 
-            if(isCandidate){ // restore this secondaries voting rights
-                secondary.setCandidate(false);
-            }
-
-            if(secondElection){ // if secondElection = true, there was an election timeout but new leader got elected
-                secondary.setSecondElection(false);
-            }
-
-            if (!timerSet) {
-                // create thread and start timer with randomized election timeout (150-300 ms)
-                secondary.setTimerSet(true);
-                try {
-                    secondary.startTimer();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else { // reset timer in thread using boolean variable
-                secondary.resetTimer();
-            }
-
-            // if this follower's current index is less than the index of the leader, then
-            // increment the index of the follower and commit that entry
-            int currentIndex = secondary.getIndex();
-            if (currentIndex < lastIndex) {
-                // lastIndex should be 0 if nothing is on log, log index starts at 1
-                secondary.incrementIndex();
-
-                // commit the entry to persistent data store
-                System.out.println("Received updated index in heartbeat, will commit entry to data store ");
-                String filename = port + ".json";
-                commitEntryToFile(filename);
-            }
+            // call this function if it is a heartbeat message
+            respondHeartbeat(lastIndex);
         } else {
             System.out.println("jsonString = " + jsonString);
             System.out.println("not a heartbeat, trying to append data to log");
-            //System.out.println("(ignore for leader)last term and last index = " + lastTerm + ", " + lastIndex);
             boolean isLeader = secondary.getLeader();
 
             if (isLeader) {
                 // add to local log entry, replicate to followers, return 200 when majority of followers
                 // added new entry, then commit
                 response.setStatus(HttpServletResponse.SC_OK);
-                int count = 0;
-                int newTerm = secondary.getTerm();
-                int newIndex = secondary.getIndex() + 1;
 
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("lastTerm", newTerm);
-                jsonObject.put("lastIndex", newIndex);
-                jsonObject.put("data", object2);
-                logEntries.add(jsonObject);
-
-                System.out.println("Leader added new entry to its own log, now sending to followers");
-                for (ServerInfo server : secondariesMap) {
-                    String host = server.getHost();
-                    int port = server.getPort();
-
-                    boolean sent = sendAppendEntryRpc(host, port, jsonObject);
-                    System.out.println("Sent status to follower with port " + port + " = " + sent);
-                    if (sent) {
-                        count++;
-                    }
-                }
-
-                System.out.println("count total = " + count);
-                if (count >= majority) { // leader replicated to a majority of the followers
-                    // commit log entry and increment Index
-                    System.out.println("Leader replicated to a majority of followers, will commit and increment index");
-                    String filename = port + ".json";
-                    System.out.println("filename = " + filename);
-                    commitEntryToFile(filename);
-
-                    secondary.incrementIndex();
-                } else {
-                    System.out.println("Leader didn't replicate to a majority of its followers");
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                }
-
+                // This function carries out specific tasks if it is a leader
+                leaderFunctionality(object2, response);
             } else {
                 // secondary should just add to log entry and send 200 response back but not commit
                 // it should also check index and term to see if it matches, if it doesn't get info
@@ -168,12 +99,88 @@ public class AppendEntryServlet extends HttpServlet{
 
                 System.out.println("Secondary added data from leader to log entry list");
                 response.setStatus(HttpServletResponse.SC_OK);
-
             }
 
         } // end of else (for if it is not heartbeat)
     }
 
+    public void respondHeartbeat(int lastIndex) throws IOException{
+        boolean timerSet = secondary.getTimerSet();
+        boolean isCandidate = secondary.getCandidate();
+        boolean secondElection = secondary.getSecondElection();
+
+        if(isCandidate){ // restore this secondaries voting rights
+            secondary.setCandidate(false);
+        }
+
+        if(secondElection){ // if secondElection = true, there was an election timeout but new leader got elected
+            secondary.setSecondElection(false);
+        }
+
+        if (!timerSet) {
+            // create thread and start timer with randomized election timeout (150-300 ms)
+            secondary.setTimerSet(true);
+            try {
+                secondary.startTimer();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else { // reset timer in thread using boolean variable
+            secondary.resetTimer();
+        }
+
+        // if this follower's current index is less than the index of the leader, then
+        // increment the index of the follower and commit that entry
+        int currentIndex = secondary.getIndex();
+        if (currentIndex < lastIndex) {
+            // lastIndex should be 0 if nothing is on log, log index starts at 1
+            secondary.incrementIndex();
+
+            // commit the entry to persistent data store
+            System.out.println("Received updated index in heartbeat, will commit entry to data store ");
+            String filename = port + ".json";
+            commitEntryToFile(filename);
+        }
+    }
+
+    public void leaderFunctionality(JSONObject object2, HttpServletResponse response) throws IOException{
+        int count = 0;
+        int newTerm = secondary.getTerm();
+        int newIndex = secondary.getIndex() + 1;
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("lastTerm", newTerm);
+        jsonObject.put("lastIndex", newIndex);
+        jsonObject.put("data", object2);
+        logEntries.add(jsonObject);
+
+        System.out.println("Leader added new entry to its own log, now sending to followers");
+        for (ServerInfo server : secondariesMap) {
+            String host = server.getHost();
+            int port = server.getPort();
+
+            boolean sent = sendAppendEntryRpc(host, port, jsonObject);
+            System.out.println("Sent status to follower with port " + port + " = " + sent);
+            if (sent) {
+                count++;
+            }
+        }
+
+        System.out.println("count total = " + count);
+        if (count >= majority) { // leader replicated to a majority of the followers
+            // commit log entry and increment Index
+            System.out.println("Leader replicated to a majority of followers, will commit and increment index");
+            String filename = port + ".json";
+            System.out.println("filename = " + filename);
+            commitEntryToFile(filename);
+
+            secondary.incrementIndex();
+        } else {
+            System.out.println("Leader didn't replicate to a majority of its followers");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
+    }
 
     /**
      * This class reads the Json input that is sent with a post request and returns a String
@@ -230,44 +237,6 @@ public class AppendEntryServlet extends HttpServlet{
 
         String output = JSONValue.toJSONString(obj);
         Files.write(file, output.getBytes(StandardCharsets.UTF_8));
-    }
-
-    public JSONArray requestInfoFromLeader(String host, int port) throws  Exception {
-        String url = "http://" + host + ":" + port + "/loginfo";
-
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-        con.setDoOutput(true);
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-
-        JSONObject object = new JSONObject();
-        object.put("loginfo", 1);
-
-        OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
-        writer.write(object.toString());
-        writer.flush();
-
-        int statusCode = con.getResponseCode();
-        System.out.println("Status code for getting log info = " + statusCode);
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String line;
-        StringBuilder builder = new StringBuilder();
-
-        while ((line = in.readLine()) != null) {
-            builder.append(line);
-        }
-
-        String jsonString = builder.toString();
-        System.out.println("Log info json = " + jsonString);
-
-        JSONParser parser = new JSONParser();
-        JSONObject jsonObj = (JSONObject) parser.parse(jsonString);
-        JSONArray log = (JSONArray) jsonObj.get("storage");
-
-        return log;
     }
 
 }
