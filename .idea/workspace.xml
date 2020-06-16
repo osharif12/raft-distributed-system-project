@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="project-5-test:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="df0a7da2-e2e2-4d52-801a-1b94c5b46db9" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/javax_servlet_api_4_0_0_b07.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/javax_servlet_api_4_0_0_b07.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/jetty_all_9_4_7_v20170914_uber.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/jetty_all_9_4_7_v20170914_uber.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/json_simple_1_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/json_simple_1_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/log4j_api_2_9_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/log4j_api_2_9_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/log4j_core_2_9_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/log4j_core_2_9_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/4450.json" beforeDir="false" afterPath="$PROJECT_DIR$/4450.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/4451.json" beforeDir="false" afterPath="$PROJECT_DIR$/4451.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/4452.json" beforeDir="false" afterPath="$PROJECT_DIR$/4452.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/4453.json" beforeDir="false" afterPath="$PROJECT_DIR$/4453.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/4454.json" beforeDir="false" afterPath="$PROJECT_DIR$/4454.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example.json" beforeDir="false" afterPath="$PROJECT_DIR$/example.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/hamcrest-core-1.3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/hamcrest-core-1.3.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javax.servlet-api-4.0.0-b07-javadoc.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javax.servlet-api-4.0.0-b07-javadoc.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javax.servlet-api-4.0.0-b07.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javax.servlet-api-4.0.0-b07.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/jetty-all-9.4.7.v20170914-uber.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/jetty-all-9.4.7.v20170914-uber.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/junit-4.12.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/junit-4.12.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/lib.iml" beforeDir="false" afterPath="$PROJECT_DIR$/lib/lib.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/log4j-api-2.9.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/log4j-api-2.9.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/log4j-core-2.9.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/log4j-core-2.9.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-5-osharif12.iml" beforeDir="false" afterPath="$PROJECT_DIR$/project-5-osharif12.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/AppendEntryServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/AppendEntryServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/Election.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/Election.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/LeaderInfoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/LeaderInfoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/LogEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/LogEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/LogEntryList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/LogEntryList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/PrimaryFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/PrimaryFunctions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/PropertiesLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/PropertiesLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/RecNewSecondary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/RecNewSecondary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/RegPrimaryServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/RegPrimaryServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/RequestVoteServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/RequestVoteServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/SecondaryFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/SecondaryFunctions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/ServerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/ServerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Raft/ServerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Raft/ServerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Requests/ReplicationRequests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Requests/ReplicationRequests.java" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-2098437961">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="5" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.1" value="2" />
+          <entry key="project.open.time.22" value="1" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.opened" value="5" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="java" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JAVA" value="4" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Raft/ServerMain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="17" selection-start-line="17" selection-end-line="17" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Raft/Election.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="630">
+              <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#4172#4173#0" expanded="true" />
+                <element signature="e#4195#4196#0" expanded="true" />
+                <element signature="e#4236#4237#0" expanded="true" />
+                <element signature="e#4264#4265#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Raft/AppendEntryServlet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1305">
+              <caret line="106" column="25" selection-start-line="106" selection-start-column="25" selection-end-line="106" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Raft/SecondaryFunctions.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2700">
+              <caret line="219" column="7" selection-start-line="219" selection-start-column="7" selection-end-line="219" selection-end-column="7" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#6792#6793#0" expanded="true" />
+                <element signature="e#6831#6832#0" expanded="true" />
+                <element signature="e#6880#6881#0" expanded="true" />
+                <element signature="e#6914#6915#0" expanded="true" />
+                <element signature="e#6978#6979#0" expanded="true" />
+                <element signature="e#7016#7017#0" expanded="true" />
+                <element signature="e#7070#7071#0" expanded="true" />
+                <element signature="e#7107#7108#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Raft/PrimaryFunctions.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1485">
+              <caret line="104" column="33" selection-start-line="104" selection-start-column="33" selection-end-line="104" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Requests/ReplicationRequests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="397">
+              <caret line="44" column="27" selection-start-line="44" selection-start-column="27" selection-end-line="44" selection-end-column="27" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Raft/RequestVoteServlet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Raft/ServerInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/LogEntry.java" />
+        <option value="$PROJECT_DIR$/src/ServerMain.java" />
+        <option value="$PROJECT_DIR$/src/AppendEntryServlet.java" />
+        <option value="$PROJECT_DIR$/src/ServerInfo.java" />
+        <option value="$PROJECT_DIR$/src/Raft/PropertiesLoader.java" />
+        <option value="$PROJECT_DIR$/src/Raft/RecNewSecondary.java" />
+        <option value="$PROJECT_DIR$/example.json" />
+        <option value="$PROJECT_DIR$/src/Raft/LogEntry.java" />
+        <option value="$PROJECT_DIR$/src/Raft/LogEntryList.java" />
+        <option value="$PROJECT_DIR$/src/Raft/LogServlet.java" />
+        <option value="$PROJECT_DIR$/4450.json" />
+        <option value="$PROJECT_DIR$/4451.json" />
+        <option value="$PROJECT_DIR$/4452.json" />
+        <option value="$PROJECT_DIR$/4453.json" />
+        <option value="$PROJECT_DIR$/4454.json" />
+        <option value="$PROJECT_DIR$/src/Raft/ServerMain.java" />
+        <option value="$PROJECT_DIR$/src/Raft/RegPrimaryServlet.java" />
+        <option value="$PROJECT_DIR$/src/Raft/SecondaryFunctions.java" />
+        <option value="$PROJECT_DIR$/config.properties" />
+        <option value="$PROJECT_DIR$/src/Raft/AppendEntryServlet.java" />
+        <option value="$PROJECT_DIR$/src/Requests/ReplicationRequests.java" />
+        <option value="$PROJECT_DIR$/src/Raft/Election.java" />
+        <option value="$PROJECT_DIR$/src/Raft/LeaderInfoServlet.java" />
+        <option value="$PROJECT_DIR$/src/Raft/PrimaryFunctions.java" />
+        <option value="$PROJECT_DIR$/src/Raft/RequestVoteServlet.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="23" />
+    <option name="y" value="27" />
+    <option name="width" value="1601" />
+    <option name="height" value="957" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="project-5-osharif12" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project-5-osharif12" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project-5-osharif12" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project-5-osharif12" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project-5-osharif12" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project-5-osharif12" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project-5-osharif12" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project-5-osharif12" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+              <item name="project_5_test_jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project-5-osharif12" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project-5-osharif12" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="production" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project-5-osharif12" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project-5-osharif12" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="production" type="462c0819:PsiDirectoryNode" />
+              <item name="project-5-osharif12" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project-5-osharif12" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project-5-osharif12" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project-5-osharif12" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project-5-osharif12" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Raft" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project-5-osharif12" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project-5-osharif12" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Requests" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539025587925" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Raft" />
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Primary">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Primary" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Raft.ServerMain" />
+      <module name="project-5-osharif12" />
+      <option name="PROGRAM_PARAMETERS" value="-host localhost -port 4450 -leader false" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Requests" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Requests.ReplicationRequests" />
+      <module name="project-5-osharif12" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Secondary (2)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Raft.ServerMain" />
+      <module name="project-5-osharif12" />
+      <option name="PROGRAM_PARAMETERS" value="-host localhost -port 4452 -leader false" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Secondary (3)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Raft.ServerMain" />
+      <module name="project-5-osharif12" />
+      <option name="PROGRAM_PARAMETERS" value="-host localhost -port 4453 -leader false" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Secondary (4)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Raft.ServerMain" />
+      <module name="project-5-osharif12" />
+      <option name="PROGRAM_PARAMETERS" value="-host localhost -port 4454 -leader false" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Secondary(1)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Raft.ServerMain" />
+      <module name="project-5-osharif12" />
+      <option name="PROGRAM_PARAMETERS" value="-host localhost -port 4451 -leader false" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Primary" />
+      <item itemvalue="Application.Requests" />
+      <item itemvalue="Application.Secondary(1)" />
+      <item itemvalue="Application.Secondary (2)" />
+      <item itemvalue="Application.Secondary (3)" />
+      <item itemvalue="Application.Secondary (4)" />
+    </list>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="df0a7da2-e2e2-4d52-801a-1b94c5b46db9" name="Default" comment="" />
+      <created>1525121442625</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1525121442625</updated>
+      <workItem from="1537243642117" duration="1765000" />
+      <workItem from="1538756090177" duration="643000" />
+      <workItem from="1539058387498" duration="3134000" />
+      <workItem from="1581100627205" duration="569000" />
+      <workItem from="1590138972052" duration="165000" />
+    </task>
+    <task id="LOCAL-00001" summary="Commit 1. First commit is for proposal on on Project 5. Includes description of project as well as timeline on when I will be completing specific events.">
+      <created>1525121786598</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1525121786598</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Commit 2.">
+      <created>1525125619447</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1525125619447</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Commit 3, had to change the formatting the file">
+      <created>1525125788895</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1525125788895</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Commit 4, I added something to the proposal.">
+      <created>1525131310885</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1525131310885</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Commit 5. Added the main server and class for log entry object">
+      <created>1525566319538</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1525566319538</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Commit 6. Added classes and servlets for logEntryList and sending out appendRpc's for checking if secondaries are alive and if primary is alive. Working on finishing the implementation for them">
+      <created>1525657354611</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1525657354611</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Commit 7. Working on adding more functionality to heartbeat messages and working on election algorithm.">
+      <created>1525674043654</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1525674043654</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Commit 8. Working on the election algorithm">
+      <created>1525738965511</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1525738965511</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Commit 9. Working on the election algorithm and RequestVote RPC functionality.">
+      <created>1525754603330</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1525754603330</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Commit 10. Finished RequestVoteServlet and most of the election algorithm, will have to alter a bit once I finish replication part of the project.">
+      <created>1525813867544</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1525813867544</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Commit 11. Modified the appendEntryRpc servlet and the voteEntryRpc servlets.">
+      <created>1526155439149</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1526155439149</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Commit 11. Modified the appendEntryRpc servlet and the voteEntryRpc servlets.">
+      <created>1526155488620</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1526155488620</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Commit 12. Created a ReplicationRequests class to send appendEntryRpc's to the leader in order to store data in the form of json objects.">
+      <created>1526188544185</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1526188544185</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Commit 13. Refactored code in the Servermain class, AppendEntryServlet, RequestVoteServlet, and SecondaryFunctions class.">
+      <created>1526263711607</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1526263711607</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Commit 14. Refactored code in AppendEntryServlet and completed basic replication">
+      <created>1526286167294</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1526286167294</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Commit 15. Added and tested committing to a persistent data store. For each commit I am writing the JsonArray logEntry onto the json file that corresponds to the service. There is one json file for each service that will store persistent data and they are identified by the port number of the service.">
+      <created>1526448101381</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1526448101381</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Commit 16. Uploaded everything on the cloud and tested everything.">
+      <created>1526490489773</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1526490489773</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Commit 17. I refactored the code by making some functions smaller, deleting old code, and unnecessary comments.">
+      <created>1526514679698</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1526514679698</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="6276000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="23" y="27" width="1601" height="957" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27838358" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32882884" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32882884" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32882884" />
+      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="GraphQL" order="12" />
+      <window_info anchor="bottom" id="Statistic" order="13" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Maven Projects" order="7" />
+      <window_info anchor="right" id="Database" order="8" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24980783" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Image Layers" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32882884" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32882884" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="8" weight="0.32882884" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Maven Projects" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Theme Preview" order="7" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Commit 1. First commit is for proposal on on Project 5. Includes description of project as well as timeline on when I will be completing specific events." />
+    <MESSAGE value="Commit 2." />
+    <MESSAGE value="Commit 3, had to change the formatting the file" />
+    <MESSAGE value="Commit 4, I added something to the proposal." />
+    <MESSAGE value="Commit 5. Added the main server and class for log entry object" />
+    <MESSAGE value="Commit 6. Added classes and servlets for logEntryList and sending out appendRpc's for checking if secondaries are alive and if primary is alive. Working on finishing the implementation for them" />
+    <MESSAGE value="Commit 7. Working on adding more functionality to heartbeat messages and working on election algorithm." />
+    <MESSAGE value="Commit 8. Working on the election algorithm" />
+    <MESSAGE value="Commit 9. Working on the election algorithm and RequestVote RPC functionality." />
+    <MESSAGE value="Commit 10. Finished RequestVoteServlet and most of the election algorithm, will have to alter a bit once I finish replication part of the project." />
+    <MESSAGE value="Commit 11. Modified the appendEntryRpc servlet and the voteEntryRpc servlets." />
+    <MESSAGE value="Commit 12. Created a ReplicationRequests class to send appendEntryRpc's to the leader in order to store data in the form of json objects." />
+    <MESSAGE value="Commit 13. Refactored code in the Servermain class, AppendEntryServlet, RequestVoteServlet, and SecondaryFunctions class." />
+    <MESSAGE value="Commit 14. Refactored code in AppendEntryServlet and completed basic replication" />
+    <MESSAGE value="Commit 15. Added and tested committing to a persistent data store. For each commit I am writing the JsonArray logEntry onto the json file that corresponds to the service. There is one json file for each service that will store persistent data and they are identified by the port number of the service." />
+    <MESSAGE value="Commit 16. Uploaded everything on the cloud and tested everything." />
+    <MESSAGE value="Commit 17. I refactored the code by making some functions smaller, deleting old code, and unnecessary comments." />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit 17. I refactored the code by making some functions smaller, deleting old code, and unnecessary comments." />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/lib/lib.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project-5-osharif12.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="866" selection-start-line="4" selection-start-column="866" selection-end-line="4" selection-end-column="866" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="250">
+            <caret line="43" column="84" selection-start-line="43" selection-start-column="84" selection-end-line="43" selection-end-column="84" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/LogServlet.java" />
+    <entry file="file://$PROJECT_DIR$/4451.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4454.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4453.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4452.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4450.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="60" selection-start-column="60" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/LeaderInfoServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="58" selection-start-line="13" selection-start-column="58" selection-end-line="13" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/LogEntry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="8" column="30" lean-forward="true" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/LogEntryList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/PropertiesLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="23" column="29" lean-forward="true" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/RecNewSecondary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="755">
+          <caret line="56" selection-start-line="56" selection-end-line="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/RegPrimaryServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-336">
+          <caret line="67" column="9" selection-start-line="67" selection-start-column="9" selection-end-line="67" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/ServerMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/Election.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4172#4173#0" expanded="true" />
+            <element signature="e#4195#4196#0" expanded="true" />
+            <element signature="e#4236#4237#0" expanded="true" />
+            <element signature="e#4264#4265#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/AppendEntryServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1305">
+          <caret line="106" column="25" selection-start-line="106" selection-start-column="25" selection-end-line="106" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/SecondaryFunctions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2700">
+          <caret line="219" column="7" selection-start-line="219" selection-start-column="7" selection-end-line="219" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#6792#6793#0" expanded="true" />
+            <element signature="e#6831#6832#0" expanded="true" />
+            <element signature="e#6880#6881#0" expanded="true" />
+            <element signature="e#6914#6915#0" expanded="true" />
+            <element signature="e#6978#6979#0" expanded="true" />
+            <element signature="e#7016#7017#0" expanded="true" />
+            <element signature="e#7070#7071#0" expanded="true" />
+            <element signature="e#7107#7108#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/PrimaryFunctions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1485">
+          <caret line="104" column="33" selection-start-line="104" selection-start-column="33" selection-end-line="104" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/RequestVoteServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Raft/ServerInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Requests/ReplicationRequests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="44" column="27" selection-start-line="44" selection-start-column="27" selection-end-line="44" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>project-5-test:jar</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>project-5-osharif12</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>hamcrest-core-1.3</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
